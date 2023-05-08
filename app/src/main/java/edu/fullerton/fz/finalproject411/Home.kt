@@ -1,37 +1,73 @@
 package edu.fullerton.fz.finalproject411
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONArray
+import org.json.JSONObject
+import android.util.Log
+import java.util.ArrayList
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
 
 
 class Home : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
+    private val httpClient = OkHttpClient()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        fetchCryptoData()
+        return view
+    }
+    private fun fetchCryptoData() {
+        // Replace with your CoinMarketCap API key
+        val apiKey = "191acd18-be56-4c37-a1c4-72b96366130e"
+        val request = Request.Builder()
+            .url("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100")
+            .addHeader("X-CMC_PRO_API_KEY", apiKey)
+            .build()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = httpClient.newCall(request).execute()
+            val json = JSONObject(response.body!!.string()).getJSONArray("data")
+            val cryptoList = ArrayList<CryptoData>()
+            var i = 0
+            while (i < json.length()) {
+                val item = json.getJSONObject(i)
+                val cryptoData = CryptoData(
+                    name = item.getString("name"),
+                    price = item.getJSONObject("quote").getJSONObject("USD").getDouble("price"),
+                    percentChange24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("percent_change_24h"),
+                    volume24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("volume_24h")
+                )
+                cryptoList.add(cryptoData)
+                i++
+            }
+
+            withContext(Dispatchers.Main) {
+                val fragmentManager = childFragmentManager
+                for (cryptoData in cryptoList) {
+                    Log.d("API CALL", cryptoData.toString())
+                }
+            }
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-//        val homeTextView:TextView = view.findViewById(R.id.home_text)
-//        homeTextView.text = "This is home"
-    }
+
+
+
 
 }

@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import edu.fullerton.fz.finalproject411.databinding.ActivityMainBinding
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,5 +46,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
 
+        Log.d("LOG", "Switched tab")
     }
 }

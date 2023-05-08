@@ -5,4 +5,7 @@
     <string name="title_settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="crypto_price">Price: $%1$.2f</string>
+    <string name="crypto_percent_change">24h %% Change: %1$.2f%%</string>
+    <string name="crypto_volume">24h Volume: $%1$.2f</string>
 </resources>
