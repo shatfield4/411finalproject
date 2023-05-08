@@ -15,6 +15,7 @@ import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
 import android.util.Log
+import android.widget.LinearLayout
 import java.util.ArrayList
 
 
@@ -35,7 +36,7 @@ class Home : Fragment() {
         // Replace with your CoinMarketCap API key
         val apiKey = "191acd18-be56-4c37-a1c4-72b96366130e"
         val request = Request.Builder()
-            .url("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100")
+            .url("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=10")
             .addHeader("X-CMC_PRO_API_KEY", apiKey)
             .build()
 
@@ -43,6 +44,7 @@ class Home : Fragment() {
             val response = httpClient.newCall(request).execute()
             val json = JSONObject(response.body!!.string()).getJSONArray("data")
             val cryptoList = ArrayList<CryptoData>()
+            val length = json.length()
             var i = 0
             while (i < json.length()) {
                 val item = json.getJSONObject(i)
@@ -58,12 +60,17 @@ class Home : Fragment() {
 
             withContext(Dispatchers.Main) {
                 val fragmentManager = childFragmentManager
+                val cryptoCardContainer = view?.findViewById<LinearLayout>(R.id.crypto_card_container)
                 for (cryptoData in cryptoList) {
-                    Log.d("API CALL", cryptoData.toString())
+                    val cryptoCardFragment = CryptoCardFragment.newInstance(cryptoData)
+                    fragmentManager.commit {
+                        add(cryptoCardContainer!!.id, cryptoCardFragment)
+                    }
                 }
             }
         }
     }
+
 
 
 
