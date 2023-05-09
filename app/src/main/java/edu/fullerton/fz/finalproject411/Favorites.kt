@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.content.Context
 
 /**
  * A simple [Fragment] subclass.
@@ -30,8 +31,10 @@ class Favorites : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val favoritesTextView:TextView = view.findViewById(R.id.favorites_text)
-        favoritesTextView.text = "This is favorites"
+        val sharedPrefs = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        val allCryptos =
+            sharedPrefs.all.values.map { CryptoData.fromSharedPrefsString(it as String) }
+        val favoritedCryptos = allCryptos.filter { it.isFavorite }
     }
 
 }
