@@ -1,13 +1,8 @@
 package edu.fullerton.fz.finalproject411
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import edu.fullerton.fz.finalproject411.databinding.ActivityMainBinding
 import android.util.Log
 
@@ -39,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
