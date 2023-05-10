@@ -45,7 +45,7 @@ class Settings : Fragment() {
             val client = OkHttpClient()
 
             // change "localhost" to your machine's IP address when testing on a real device
-            val url = "http://10.0.1.100:3000/login" // replace with current IP
+            val url = "http://10.67.35.119:3000/login" // replace with current IP
 
             val jsonObject = JSONObject()
             jsonObject.put("username", username.text.toString())
