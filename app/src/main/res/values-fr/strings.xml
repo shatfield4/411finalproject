@@ -3,6 +3,9 @@
     <string name="title_home">Maison</string>
     <string name="title_favorites">Favoris</string>
     <string name="title_settings">Paramètres</string>
+    <string name="crypto_price">Prix: $%1$.2f</string>
+    <string name="crypto_percent_change">24h %% Changement: %1$.2f%%</string>
+    <string name="crypto_volume">24h Volume: $%1$.2f</string>
     <string name="login">Connexion</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="password">Mot de passe</string>
