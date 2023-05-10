@@ -20,4 +20,7 @@ interface CryptoDao {
 
     @Query("UPDATE crypto_data SET isFavorite = :isFavorite WHERE name = :name")
     suspend fun updateFavorite(name: String, isFavorite: Boolean)
+
+    @Query("UPDATE crypto_data SET price = :price, percentChange24h = :percentChange24h, volume24h = :volume24h WHERE name = :name")
+    suspend fun updateCryptoData(name: String, price: Double, percentChange24h: Double, volume24h: Double)
 }

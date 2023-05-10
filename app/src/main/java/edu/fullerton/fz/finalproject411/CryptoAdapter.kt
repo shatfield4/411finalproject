@@ -13,8 +13,10 @@ class CryptoAdapter(private val clickListener: (CryptoEntity) -> Unit) :
     ListAdapter<CryptoEntity, CryptoAdapter.CryptoViewHolder>(CryptoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.fragment_crypto_card, parent, false)
+//        val layoutInflater = LayoutInflater.from(parent.context)
+//        val view = layoutInflater.inflate(R.layout.fragment_crypto_card, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_crypto_card, parent, false)
         return CryptoViewHolder(view)
     }
 
@@ -25,10 +27,16 @@ class CryptoAdapter(private val clickListener: (CryptoEntity) -> Unit) :
 
     class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val cryptoNameTextView: TextView = itemView.findViewById(R.id.crypto_name)
+        private val cryptoPriceTextView: TextView = itemView.findViewById(R.id.crypto_price)
+        private val cryptoPercentChangeTextView: TextView = itemView.findViewById(R.id.crypto_percent_change)
+        private val cryptoVolumeTextView: TextView = itemView.findViewById(R.id.crypto_volume)
 
         fun bind(crypto: CryptoEntity, clickListener: (CryptoEntity) -> Unit) {
             cryptoNameTextView.text = crypto.name
-            itemView.setOnClickListener { clickListener(crypto) }
+            cryptoPriceTextView.text = "Price: $${crypto.price}"
+            cryptoPercentChangeTextView.text = "24h % Change: ${crypto.percentChange24h}%"
+            cryptoVolumeTextView.text = "24h Volume: $${crypto.volume24h}"
+
         }
     }
 

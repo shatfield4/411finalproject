@@ -12,14 +12,25 @@ class CryptoRepository(private val cryptoDao: CryptoDao) {
 
     fun getFavoriteCryptos(): Flow<List<CryptoEntity>> = cryptoDao.getFavoriteCryptos()
 
-    suspend fun setFavorite(crypto: CryptoEntity, isFavorite: Boolean) = withContext(IO) {
-        crypto.isFavorite = isFavorite
+    suspend fun setFavorite(cryptoData: CryptoData, isFavorite: Boolean) = withContext(IO) {
+
+        val cryptoEntity = CryptoEntity(
+            name = cryptoData.name,
+            price = cryptoData.price,
+            percentChange24h = cryptoData.percentChange24h,
+            volume24h = cryptoData.volume24h,
+            isFavorite = isFavorite
+        )
+
         if (isFavorite) {
-            cryptoDao.insert(crypto)
+            cryptoDao.insert(cryptoEntity)
         } else {
-            cryptoDao.updateFavorite(crypto.name, isFavorite)
+            cryptoDao.updateFavorite(cryptoEntity.name, isFavorite)
         }
+        cryptoDao.updateCryptoData(cryptoEntity.name, cryptoEntity.price, cryptoEntity.percentChange24h, cryptoEntity.volume24h)
+
     }
+
 
     companion object {
         private var INSTANCE: CryptoRepository? = null

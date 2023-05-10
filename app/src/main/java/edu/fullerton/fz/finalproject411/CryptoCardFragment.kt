@@ -68,6 +68,8 @@ class CryptoCardFragment : Fragment() {
             // Set the favorite status in the DataStore
             lifecycleScope.launch {
                 favoritesDataStore.setFavorite(cryptoData.name, cryptoData.isFavorite)
+                // Save the CryptoData as a CryptoEntity in the database
+                cryptoRepository.setFavorite(cryptoData, cryptoData.isFavorite)
             }
 
             // Change the color of the star based on the new favorite status
