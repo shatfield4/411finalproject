@@ -1,5 +1,5 @@
 package edu.fullerton.fz.finalproject411
-
+//Favorites.kt
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,10 +31,7 @@ class Favorites : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPrefs = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-        val allCryptos =
-            sharedPrefs.all.values.map { CryptoData.fromSharedPrefsString(it as String) }
-        val favoritedCryptos = allCryptos.filter { it.isFavorite }
+
     }
 
 }

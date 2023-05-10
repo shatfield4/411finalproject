@@ -15,11 +15,18 @@ import java.util.regex.Pattern
 import android.graphics.PorterDuff
 import android.content.Context
 import android.view.animation.AnimationUtils
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
+import androidx.lifecycle.lifecycleScope
+
+
+
 
 
 class CryptoCardFragment : Fragment() {
 
     private lateinit var cryptoData: CryptoData
+    private val favoritesDataStore by lazy { FavoritesDataStore.getStore() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +68,6 @@ class CryptoCardFragment : Fragment() {
                 binding.star.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP)
 
 
-                sharedPrefs.edit().putString(cryptoData.name, cryptoData.toSharedPrefsString()).apply()
-
                 // Start the animation
                 val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.star_scale)
                 binding.star.startAnimation(animation)
@@ -72,9 +77,18 @@ class CryptoCardFragment : Fragment() {
                     println(cryptoData.name)
                     println(cryptoData.isFavorite)
                 binding.star.setColorFilter(Color.WHITE)
-                sharedPrefs.edit().remove(cryptoData.name).apply()
+
             }
         }
+
+        favoritesDataStore.isFavorite(cryptoData.name).onEach { isFavorite ->
+            cryptoData.isFavorite = isFavorite
+            if (isFavorite) {
+                binding.star.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP)
+            } else {
+                binding.star.setColorFilter(Color.WHITE)
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
 
         return binding.root
