@@ -33,11 +33,48 @@ class Settings : Fragment() {
         loginButton = view.findViewById(R.id.loginButton)
 
         loginButton.setOnClickListener {
-            if (username.text.toString() == "user" && password.text.toString() == "1234") {
-                Toast.makeText(requireActivity(), "Login Successful!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireActivity(), "Login Failed!", Toast.LENGTH_SHORT).show()
-            }
+
+            val client = OkHttpClient()
+
+            // change "localhost" to your machine's IP address when testing on a real device
+            val url = "http://10.67.35.119:3000/login" // replace with current IP
+
+            val jsonObject = JSONObject()
+            jsonObject.put("username", username.text.toString())
+            jsonObject.put("password", password.text.toString())
+            val body = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), jsonObject.toString())
+
+            val request = Request.Builder()
+                .url(url)
+                .post(body)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireActivity(), "Network error!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    activity?.runOnUiThread {
+                        if (response.isSuccessful) {
+                            val myResponse = response.body?.string()
+                            if (myResponse != null) {
+                                Log.d("Response", myResponse)
+                            }
+                            val jsonResponse = JSONObject(myResponse)
+                            email.text = "Email: ${jsonResponse.getString("email")}"
+                            phone.text = "Phone: ${jsonResponse.getString("phone")}"
+                            favoriteCrypto.text = "Favorite Crypto: ${jsonResponse.getString("favoriteCrypto")}"
+                            Toast.makeText(requireActivity(), "Login Successful!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(requireActivity(), "Login Failed!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            })
         }
     }
 }
