@@ -43,8 +43,12 @@ configurations.all {
         }
     }
 }
+task prepareKotlinBuildScriptModel {
 
-
+}
+task wrapper(type: Wrapper){
+    gradleVersion = '7.2'
+}
 dependencies {
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
