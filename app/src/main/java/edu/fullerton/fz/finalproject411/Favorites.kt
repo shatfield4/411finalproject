@@ -1,37 +1,41 @@
 package edu.fullerton.fz.finalproject411
 //Favorites.kt
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.content.Context
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.fullerton.fz.finalproject411.databinding.FragmentFavoritesBinding
+import edu.fullerton.fz.finalproject411.db.CryptoEntity
 
 class Favorites : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
+    private lateinit var binding: FragmentFavoritesBinding
+    private lateinit var cryptoViewModel: CryptoViewModel
+    private lateinit var cryptoAdapter: CryptoAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        cryptoViewModel = ViewModelProvider(this).get(CryptoViewModel::class.java)
+        cryptoAdapter = CryptoAdapter { crypto -> cryptoViewModel.toggleFavorite(crypto) }
+        binding.recyclerView.apply {
+            adapter = cryptoAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        cryptoViewModel.favoriteCryptos.observe(viewLifecycleOwner) { cryptos ->
+            cryptoAdapter.submitList(cryptos)
+        }
     }
-
 }
+

@@ -18,6 +18,8 @@ import android.view.animation.AnimationUtils
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.launchIn
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
 
 
 
@@ -27,6 +29,8 @@ class CryptoCardFragment : Fragment() {
 
     private lateinit var cryptoData: CryptoData
     private val favoritesDataStore by lazy { FavoritesDataStore.getStore() }
+    private val cryptoRepository by lazy { CryptoRepository.getRepository(requireContext()) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,12 @@ class CryptoCardFragment : Fragment() {
         binding.star.setOnClickListener {
             // Toggle the favorite status of the crypto
             cryptoData.isFavorite = !cryptoData.isFavorite
+
+            // Set the favorite status in the DataStore
+            lifecycleScope.launch {
+                favoritesDataStore.setFavorite(cryptoData.name, cryptoData.isFavorite)
+            }
+
             // Change the color of the star based on the new favorite status
             val sharedPrefs = requireActivity().getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
             if (cryptoData.isFavorite) {

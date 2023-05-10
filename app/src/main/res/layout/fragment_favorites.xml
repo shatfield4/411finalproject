@@ -14,5 +14,12 @@
         android:textSize="26dp"
         android:id="@+id/favorites_text"
         />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/fragment_crypto_card" />
+
 
 </FrameLayout>
