@@ -42,8 +42,6 @@
                 android:hint="@string/username"
                 android:drawableLeft="@color/blue"
                 android:drawablePadding="8dp"
-                android:hint="Username"
-                android:padding="8dp"
                 android:textColor="@color/black" />
 
             <EditText
@@ -68,6 +66,30 @@
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/blue"
                 app:cornerRadius = "20dp"/>
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Email: "
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Phone: "
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/favoriteCrypto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Favorite Crypto: "
+                android:textColor="@color/white"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
