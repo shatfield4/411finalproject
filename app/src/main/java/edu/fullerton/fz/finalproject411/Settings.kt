@@ -1,27 +1,21 @@
 package edu.fullerton.fz.finalproject411
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import org.json.JSONObject
-import java.io.IOException
+import edu.fullerton.fz.finalproject411.databinding.ActivityMainBinding
+
 
 class Settings : Fragment() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var username: EditText
     private lateinit var password: EditText
     private lateinit var loginButton: Button
-    private lateinit var email: TextView
-    private lateinit var phone: TextView
-    private lateinit var favoriteCrypto: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +31,9 @@ class Settings : Fragment() {
         username = view.findViewById(R.id.username)
         password = view.findViewById(R.id.password)
         loginButton = view.findViewById(R.id.loginButton)
-        email = view.findViewById(R.id.email)
-        phone = view.findViewById(R.id.phone)
-        favoriteCrypto = view.findViewById(R.id.favoriteCrypto)
 
         loginButton.setOnClickListener {
+
             val client = OkHttpClient()
 
             // change "localhost" to your machine's IP address when testing on a real device

@@ -1,6 +1,6 @@
 package edu.fullerton.fz.finalproject411
 
-
+//FavoritesDataStore.kt
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
+
+
 class FavoritesDataStore private constructor(private val dataStore: DataStore<Preferences>) {
+
 
     fun isFavorite(cryptoName: String): Flow<Boolean> {
         val key = booleanPreferencesKey(cryptoName)
@@ -20,6 +23,7 @@ class FavoritesDataStore private constructor(private val dataStore: DataStore<Pr
             .map { prefs -> prefs[key] ?: false }
             .distinctUntilChanged()
     }
+
 
     suspend fun setFavorite(cryptoName: String, isFavorite: Boolean) {
         val key = booleanPreferencesKey(cryptoName)

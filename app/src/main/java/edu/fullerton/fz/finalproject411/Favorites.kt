@@ -1,51 +1,42 @@
 package edu.fullerton.fz.finalproject411
 //Favorites.kt
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.net.Uri
-import android.widget.ImageView
-import android.widget.MediaController
-import android.widget.VideoView
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.fullerton.fz.finalproject411.databinding.FragmentFavoritesBinding
+import edu.fullerton.fz.finalproject411.db.CryptoEntity
 
 class Favorites : Fragment() {
 
+    private lateinit var binding: FragmentFavoritesBinding
+    private lateinit var cryptoViewModel: CryptoViewModel
+    private lateinit var cryptoAdapter: CryptoAdapter
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val videoView = view.findViewById<VideoView>(R.id.video_view)
-        val imageView = view.findViewById<ImageView>(R.id.image_view)
-
-        // Set your video URI. For example:
-        val videoUri = Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.btc2)
-        videoView.setVideoURI(videoUri)
-
-        val mediaController = MediaController(context)
-        videoView.setMediaController(mediaController)
-        mediaController.setAnchorView(videoView)
-
-        videoView.setOnPreparedListener { mp ->
-            mp.start()
+        cryptoViewModel = ViewModelProvider(this).get(CryptoViewModel::class.java)
+        cryptoAdapter = CryptoAdapter { crypto -> cryptoViewModel.toggleFavorite(crypto) }
+        binding.recyclerView.apply {
+            adapter = cryptoAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
-
-        // Set your image. For example:
-        imageView.setImageResource(R.drawable.eth_logo)
+        cryptoViewModel.favoriteCryptos.observe(viewLifecycleOwner) { cryptos ->
+            cryptoAdapter.submitList(cryptos)
+        }
     }
-
 }
+
+
