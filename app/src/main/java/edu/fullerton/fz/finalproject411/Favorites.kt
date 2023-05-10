@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.content.Context
+import android.net.Uri
+import android.widget.ImageView
+import android.widget.MediaController
+import android.widget.VideoView
 
 /**
  * A simple [Fragment] subclass.
@@ -16,22 +18,34 @@ import android.content.Context
 
 
 class Favorites : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val videoView = view.findViewById<VideoView>(R.id.video_view)
+        val imageView = view.findViewById<ImageView>(R.id.image_view)
 
+        // Set your video URI. For example:
+        val videoUri = Uri.parse("android.resource://" + requireActivity().packageName + "/" + R.raw.btc2)
+        videoView.setVideoURI(videoUri)
+
+        val mediaController = MediaController(context)
+        videoView.setMediaController(mediaController)
+        mediaController.setAnchorView(videoView)
+
+        videoView.setOnPreparedListener { mp ->
+            mp.start()
+        }
+
+        // Set your image. For example:
+        imageView.setImageResource(R.drawable.eth_logo)
     }
 
 }

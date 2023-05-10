@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Favorites">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Favorites Fragment"
-        android:layout_gravity="center"
-        android:textSize="26dp"
-        android:id="@+id/favorites_text"
-        />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What is Cryptocurrency?
+
+            Cryptocurrency is a digital or virtual currency that uses cryptography for security and operates independently of a central bank. Unlike traditional fiat currencies, cryptocurrencies are decentralized, meaning that they are not controlled by a central authority or government.
+
+Instead, cryptocurrencies rely on a network of computers and users to maintain and verify transactions on a public ledger called a blockchain. This ledger records every transaction made with the currency, and the information is stored across the network of computers, making it extremely difficult to tamper with or hack.
+
+Cryptocurrencies can be bought and sold on exchanges, and their value can fluctuate wildly based on market demand and other factors. Some of the most well-known cryptocurrencies include Bitcoin, Ethereum, and Litecoin.
+
+Cryptocurrencies have gained popularity in recent years due to their potential to provide a more secure and decentralized alternative to traditional banking and financial systems. However, their decentralized nature also makes them vulnerable to volatility and regulatory uncertainties."
+            android:textSize="26sp" />
+
+        <VideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
+
+</ScrollView>
