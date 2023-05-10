@@ -4,6 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.descriptors.PrimitiveKind
 
+
+@kotlinx.serialization.Serializable
 @Parcelize
 data class CryptoData(
     val name: String,

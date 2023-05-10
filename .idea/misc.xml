@@ -11,10 +11,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_crypto_card.xml" value="0.10069885253906241" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.20230255126953123" />
-        <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.12727272727272726" />
+        <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.17916666666666667" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.12292785644531251" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.23667093912760415" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.17916666666666667" />
       </map>
     </option>
