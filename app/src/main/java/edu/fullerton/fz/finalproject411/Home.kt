@@ -10,12 +10,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
 import android.util.Log
 import android.widget.LinearLayout
+import okhttp3.*
+import okio.IOException
 import java.util.ArrayList
 
 
@@ -40,36 +40,46 @@ class Home : Fragment() {
             .addHeader("X-CMC_PRO_API_KEY", apiKey)
             .build()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = httpClient.newCall(request).execute()
-            val json = JSONObject(response.body!!.string()).getJSONArray("data")
-            val cryptoList = ArrayList<CryptoData>()
-            val length = json.length()
-            var i = 0
-            while (i < json.length()) {
-                val item = json.getJSONObject(i)
-                val cryptoData = CryptoData(
-                    name = item.getString("name"),
-                    price = item.getJSONObject("quote").getJSONObject("USD").getDouble("price"),
-                    percentChange24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("percent_change_24h"),
-                    volume24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("volume_24h")
-                )
-                cryptoList.add(cryptoData)
-                i++
+        Log.d("API", "Requesting CMC API")
+
+        httpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
             }
 
-            withContext(Dispatchers.Main) {
-                val fragmentManager = childFragmentManager
-                val cryptoCardContainer = view?.findViewById<LinearLayout>(R.id.crypto_card_container)
-                for (cryptoData in cryptoList) {
-                    val cryptoCardFragment = CryptoCardFragment.newInstance(cryptoData)
-                    fragmentManager.commit {
-                        add(cryptoCardContainer!!.id, cryptoCardFragment)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val json = JSONObject(response.body!!.string()).getJSONArray("data")
+                    val cryptoList = ArrayList<CryptoData>()
+                    val length = json.length()
+                    var i = 0
+                    while (i < json.length()) {
+                        val item = json.getJSONObject(i)
+                        val cryptoData = CryptoData(
+                            name = item.getString("name"),
+                            price = item.getJSONObject("quote").getJSONObject("USD").getDouble("price"),
+                            percentChange24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("percent_change_24h"),
+                            volume24h = item.getJSONObject("quote").getJSONObject("USD").getDouble("volume_24h")
+                        )
+                        cryptoList.add(cryptoData)
+                        i++
+                    }
+
+                    activity?.runOnUiThread {
+                        val fragmentManager = childFragmentManager
+                        val cryptoCardContainer = view?.findViewById<LinearLayout>(R.id.crypto_card_container)
+                        for (cryptoData in cryptoList) {
+                            val cryptoCardFragment = CryptoCardFragment.newInstance(cryptoData)
+                            fragmentManager.commit {
+                                add(cryptoCardContainer!!.id, cryptoCardFragment)
+                            }
+                        }
                     }
                 }
             }
-        }
+        })
     }
+
 
 
 
