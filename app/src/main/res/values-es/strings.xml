@@ -3,6 +3,10 @@
     <string name="title_home">Hogar</string>
     <string name="title_favorites">Favoritas</string>
     <string name="title_settings">Ajustes</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="crypto_price">Precio: $%1$.2f</string>
+    <string name="crypto_percent_change">24h %% Cambiar: %1$.2f%%</string>
+    <string name="crypto_volume">24h Volumen: $%1$.2f</string>
     <string name="login">Acceso</string>
     <string name="username">Nombre de usuario</string>
     <string name="password">Contraseña</string>

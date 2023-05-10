@@ -3,6 +3,9 @@
     <string name="title_home">Hem</string>
     <string name="title_favorites">Favoriter</string>
     <string name="title_settings">Inställningar</string>
+    <string name="crypto_price">Pris: $%1$.2f</string>
+    <string name="crypto_percent_change">24h %% Förändra: %1$.2f%%</string>
+    <string name="crypto_volume">24h Volym: $%1$.2f</string>
     <string name="login">Logga in</string>
     <string name="username">Användarnamn</string>
     <string name="password">Lösenord</string>
